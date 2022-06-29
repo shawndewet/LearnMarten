@@ -1,3 +1,6 @@
+using Marten;
+using Weasel.Core;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -12,11 +15,11 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddMarten(options =>
 {
     // Establish the connection string to your Marten database
-    options.Connection(Configuration.GetConnectionString("Marten"));
+    options.Connection(builder.Configuration.GetConnectionString("Marten"));
 
     // If we're running in development mode, let Marten just take care
     // of all necessary schema building and patching behind the scenes
-    if (Environment.IsDevelopment())
+    if (builder.Environment.IsDevelopment())
     {
         options.AutoCreateSchemaObjects = AutoCreate.All;
     }
