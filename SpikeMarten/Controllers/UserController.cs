@@ -41,6 +41,15 @@ namespace SpikeMarten.Controllers
             }
         }
 
+        [HttpGet()]
+        public async Task<List<User>> GetUsers(Guid userId)
+        {
+            return (List<User>)await _session
+                .Query<User>()
+                .ToListAsync();
+
+        }
+
         [HttpGet("load/{userId}")]
         public Task<User> Get(Guid userId) => _session.LoadAsync<User>(userId); //returns 204 if not found
 
