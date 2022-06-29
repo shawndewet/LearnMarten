@@ -64,13 +64,11 @@ namespace SpikeMarten.Controllers
         }
 
         [HttpGet("/issue/{issueId}")]
-        public Task<Issue> Get(Guid issueId)
-        {
-            return _session.LoadAsync<Issue>(issueId);
-        }
+        public Task<Issue> Get(Guid issueId) => return _session.LoadAsync<Issue>(issueId); //returns 204 if not found
+        
 
         [HttpGet("/issue/fast/{issueId}")]
-        public Task GetFast(Guid issueId) => _session.Json.WriteById<Issue>(issueId, HttpContext);
+        public Task GetFast(Guid issueId) => _session.Json.WriteById<Issue>(issueId, HttpContext); //returns 404 if not found
 
     }
 
