@@ -13,6 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>();
+builder.Services.AddScoped<QuestService>();
 builder.Services.AddSingleton<IMartenEventsConsumer, LOTREventsConsumer>();
 
 builder.Services.AddMarten(provider =>

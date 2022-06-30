@@ -1,0 +1,30 @@
+﻿@page "/quests"
+
+<PageTitle>Quests</PageTitle>
+
+@using BlazorApp.Data
+@using LOTRShared.Domain
+@inject QuestService QuestService
+
+<h1>Quests</h1>
+
+@if (quests == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    @foreach (var quest in quests)
+    {
+        <QuestComponent Quest="quest" />
+    }    
+}
+
+@code {
+    private List<Quest>? quests;
+
+    protected override async Task OnInitializedAsync()
+    {
+        quests = await QuestService.GetQuestsAsync();
+    }
+}
