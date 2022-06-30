@@ -1,5 +1,7 @@
-﻿using Marten;
+﻿using BlazorApp.Hubs;
+using Marten;
 using Marten.Events;
+using Microsoft.AspNetCore.SignalR;
 
 namespace BlazorApp.Services
 {
@@ -11,14 +13,17 @@ namespace BlazorApp.Services
     public class LOTREventsConsumer : IMartenEventsConsumer
     {
         private readonly ILogger<LOTREventsConsumer> _logger;
+        private readonly IHubContext<QuestHub> _questHub;
+
         public static List<object> Events { get; } = new();
 
-        public LOTREventsConsumer(ILogger<LOTREventsConsumer> logger)
+        public LOTREventsConsumer(ILogger<LOTREventsConsumer> logger, IHubContext<QuestHub> questHub)
         {
             _logger = logger;
+            _questHub = questHub;
         }
 
-        public Task ConsumeAsync(IReadOnlyList<StreamAction> streamActions)
+        public async Task ConsumeAsync(IReadOnlyList<StreamAction> streamActions)
         {
             /*SdW findings: this MUST be in a try...catch block so that exceptions don't kill the process.
                 however, there is a whole section here about Error handling: https://martendb.io/events/projections/async-daemon.html#error-handling
@@ -64,9 +69,11 @@ namespace BlazorApp.Services
                 _logger.LogInformation($"{@event.Sequence} - {@event.EventTypeName}");
                 //_logger.LogInformation($"{System.Text.Json.JsonSerializer.Serialize(@event)}"); //this fails due to system.text.json not supporting serialization of system.types?!?!?
                 _logger.LogInformation($"{Newtonsoft.Json.JsonConvert.SerializeObject(@event)}"); //this works, and the output is pasted at the end of this class.
+
+                await _questHub.Clients.All.SendAsync("ApplyQuestEvent", @event.StreamId, Newtonsoft.Json.JsonConvert.SerializeObject(@event));
             }
 
-            return Task.CompletedTask;
+            //return Task.CompletedTask;
         }
     }
 }

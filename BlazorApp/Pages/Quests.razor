@@ -1,4 +1,7 @@
 ﻿@page "/quests"
+@using Microsoft.AspNetCore.SignalR.Client
+@inject NavigationManager NavigationManager
+@implements IAsyncDisposable
 
 <PageTitle>Quests</PageTitle>
 
@@ -17,14 +20,44 @@ else
     @foreach (var quest in quests)
     {
         <QuestComponent Quest="quest" />
-    }    
+    }
 }
 
 @code {
+    private HubConnection? hubConnection;
+
     private List<Quest>? quests;
 
     protected override async Task OnInitializedAsync()
     {
         quests = await QuestService.GetQuestsAsync();
+
+        hubConnection = new HubConnectionBuilder()
+            .WithUrl(NavigationManager.ToAbsoluteUri("/questhub"))
+            .Build();
+
+        hubConnection.On<Guid, string>("ApplyQuestEvent", async (questId, eventContent) =>
+        {
+            var quest = quests.Find(r => r.Id == questId);
+            if (quest == null)
+            {
+                //we don't have this request on the screen, so load it from the db...(well I guess we could also hydrate it from eventContent?!)
+                quests.Add(await QuestService.GetQuestAsync(questId));
+            }
+
+            InvokeAsync(StateHasChanged);
+        });
+
+        await hubConnection.StartAsync();
+
+    }
+
+    private bool IsConnected =>
+        hubConnection?.State == HubConnectionState.Connected;
+
+    public async ValueTask DisposeAsync()
+    {
+        if (hubConnection is not null)
+            await hubConnection.DisposeAsync();
     }
 }

@@ -1,4 +1,5 @@
 using BlazorApp.Data;
+using BlazorApp.Hubs;
 using BlazorApp.Services;
 using Marten;
 using Marten.Events.Daemon.Resiliency;
@@ -60,6 +61,8 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.MapBlazorHub();
+
+app.MapHub<QuestHub>("/questhub");
 app.MapFallbackToPage("/_Host");
 
 app.Run();

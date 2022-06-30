@@ -13,12 +13,16 @@ namespace BlazorApp.Data
             _session = session;
         }
 
-        public async Task<List<Quest>> GetQuestsAsync(
-            )
+        public async Task<List<Quest>> GetQuestsAsync()
         {
                 return (List<Quest>)await _session
                     .Query<Quest>()
                     .ToListAsync();
+        }
+
+        public async Task<Quest> GetQuestAsync(Guid questId)
+        {
+            return await _session.LoadAsync<Quest>(questId);
         }
     }
 }
