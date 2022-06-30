@@ -70,7 +70,7 @@ namespace BlazorApp.Services
                 //_logger.LogInformation($"{System.Text.Json.JsonSerializer.Serialize(@event)}"); //this fails due to system.text.json not supporting serialization of system.types?!?!?
                 _logger.LogInformation($"{Newtonsoft.Json.JsonConvert.SerializeObject(@event)}"); //this works, and the output is pasted at the end of this class.
 
-                await _questHub.Clients.All.SendAsync("ApplyQuestEvent", @event.StreamId, Newtonsoft.Json.JsonConvert.SerializeObject(@event));
+                await _questHub.Clients.All.SendAsync("ApplyQuestEvent", @event.StreamId, @event.EventTypeName, Newtonsoft.Json.JsonConvert.SerializeObject(@event.Data));
             }
 
             //return Task.CompletedTask;
