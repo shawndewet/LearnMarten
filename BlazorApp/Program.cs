@@ -15,9 +15,6 @@ builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddSingleton<IMartenEventsConsumer, LOTREventsConsumer>();
 
-// This is the absolute, simplest way to integrate Marten into your
-// .Net Core application with Marten's default configuration
-
 builder.Services.AddMarten(provider =>
 {
     var options = new StoreOptions();
@@ -32,21 +29,18 @@ builder.Services.AddMarten(provider =>
         options.AutoCreateSchemaObjects = AutoCreate.All;
     }
 
-
-    //var c = options.GetService<IMartenEventsConsumer>();
-
+    // Register any projections you need to run asynchronously
+    //options.Projections.Add<TripAggregationWithCustomName>(ProjectionLifecycle.Async);
     options.Projections.Add(
         new LOTRSubscription(provider.GetService<IMartenEventsConsumer>()),
         ProjectionLifecycle.Async,
         "lotrConsumer"
     );
 
-    // Register any projections you need to run asynchronously
-    //options.Projections.Add<TripAggregationWithCustomName>(ProjectionLifecycle.Async);
     return options;
 })
-    // Turn on the async daemon in "Solo" mode
-    .AddAsyncDaemon(DaemonMode.Solo); ;
+// Turn on the async daemon in "Solo" mode
+.AddAsyncDaemon(DaemonMode.Solo); ;
 
 var app = builder.Build();
 
