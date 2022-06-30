@@ -10,7 +10,7 @@ namespace SpikeMarten.Controllers
     public class LOTRController: BaseController
     {
         [HttpGet("{questId}")]
-        public async Task<QuestParty> StartQuest(Guid questId,
+        public async Task<QuestParty> ReadQuest(Guid questId,
             [FromServices] IDocumentStore store)
         {
             using (var session = store.OpenSession())
