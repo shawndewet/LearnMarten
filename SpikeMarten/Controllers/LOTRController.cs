@@ -13,6 +13,8 @@ namespace SpikeMarten.Controllers
         public async Task<List<Quest>> ReadQuests(
             [FromServices] IDocumentStore store)
         {
+            //at this point, the Quest object is a self-aggregated projection...always built up at run-time from the event stream.
+            // so there IS no concept of stored Quests in the database...so this call returns nothing.
             using (var session = store.QuerySession())
             {
                 return (List<Quest>)await session

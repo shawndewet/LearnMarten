@@ -153,8 +153,6 @@ namespace LOTRShared.Domain
 
     public class MembersDeparted
     {
-        public Guid Id { get; set; }
-
         public Guid QuestId { get; set; }
 
         public int Day { get; set; }
