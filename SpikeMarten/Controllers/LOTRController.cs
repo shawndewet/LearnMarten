@@ -59,6 +59,7 @@ namespace SpikeMarten.Controllers
             using (var session = store.OpenSession())
             {
                 var quest = await session.LoadAsync<Quest>(questId);// await session.Events.AggregateStreamAsync<Quest>(questId);
+                //not sure if the above is the right approach...loading from the database...what about any other Events that may be in progress but not yet saved to the db?
 
                 //logic here to ensure member is not already joined
                 foreach (var member in model.Members)
