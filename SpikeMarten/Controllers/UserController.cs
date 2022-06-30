@@ -1,8 +1,8 @@
 ﻿using Marten;
 using Marten.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
-using SpikeMarten.Domain;
-using SpikeMarten.Models;
+using LOTRShared.Domain;
+using LOTRShared.Models;
 
 namespace SpikeMarten.Controllers
 {

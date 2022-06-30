@@ -1,6 +1,6 @@
-﻿namespace SpikeMarten.Domain
+﻿namespace LOTRShared.Models
 {
-    public class User
+    public class UserModel
     {
         public Guid Id { get; set; }
         public string FirstName { get; set; }
@@ -9,5 +9,4 @@
         public string UserName { get; set; }
         public string Department { get; set; }
     }
-
 }

@@ -1,6 +1,6 @@
 ﻿using Baseline;
 
-namespace SpikeMarten.Domain
+namespace LOTRShared.Domain
 {
     public class ArrivedAtLocation
     {

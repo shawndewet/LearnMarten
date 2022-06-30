@@ -1,4 +1,4 @@
-﻿namespace SpikeMarten.Models
+﻿namespace LOTRShared.Models
 {
     public class StartQuestModel
     {
