@@ -1,0 +1,266 @@
+{
+	"info": {
+		"_postman_id": "dd8c98de-08c0-4849-b71f-cb7f8a47bac8",
+		"name": "Marten Spike ES",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "3723061"
+	},
+	"item": [
+		{
+			"name": "StartQuest",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"questName\": \"Destroy the 7th Ring\",\r\n  \"location\": \"Hobbiton\",\r\n  \"initialMembers\": {\r\n    \"members\": [\r\n      \"Frodo\",\r\n      \"Sam\"\r\n    ]\r\n  }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7232/LOTR/StartQuest",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7232",
+					"path": [
+						"LOTR",
+						"StartQuest"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Query Quest",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:7232/LOTR/701ce422-1a96-4cbe-8cb2-51f5cb4d1d0f",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7232",
+					"path": [
+						"LOTR",
+						"701ce422-1a96-4cbe-8cb2-51f5cb4d1d0f"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Query All Quests",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:7232/LOTR",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7232",
+					"path": [
+						"LOTR"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Arrive at Location",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"day\": 5,\r\n    \"location\": \"Bree\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7232/LOTR/Arrive/acbf4bc8-7848-44df-bec6-4db184b79213",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7232",
+					"path": [
+						"LOTR",
+						"Arrive",
+						"acbf4bc8-7848-44df-bec6-4db184b79213"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Join Quest",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"day\": 7,\r\n    \"members\": [\r\n      \"Aragorn\"\r\n    ]\r\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7232/LOTR/JoinQuest/acbf4bc8-7848-44df-bec6-4db184b79213",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7232",
+					"path": [
+						"LOTR",
+						"JoinQuest",
+						"acbf4bc8-7848-44df-bec6-4db184b79213"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Leave Quest",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"day\": 7,\r\n    \"members\": [\r\n      \"Aragorn\"\r\n    ]\r\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7232/LOTR/LeaveQuest/acbf4bc8-7848-44df-bec6-4db184b79213",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7232",
+					"path": [
+						"LOTR",
+						"LeaveQuest",
+						"acbf4bc8-7848-44df-bec6-4db184b79213"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Slay",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"day\": 12,\r\n    \"characters\": [\r\n      \"Dragon1\"\r\n    ]\r\n  }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7232/LOTR/Slay/acbf4bc8-7848-44df-bec6-4db184b79213",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7232",
+					"path": [
+						"LOTR",
+						"Slay",
+						"acbf4bc8-7848-44df-bec6-4db184b79213"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Query User",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:7232/user",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7232",
+					"path": [
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create User",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"firstName\": \"Anakin\",\r\n  \"lastName\": \"Skywalker\",\r\n  \"internal\": true,\r\n  \"userName\": \"darthvader\",\r\n  \"department\": \"Empire\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://localhost:7232/user",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7232",
+					"path": [
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Fastload user",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://localhost:7232/user/fastload/0181ad79-1dcc-479e-817d-71fc8e6a9fa6",
+					"protocol": "https",
+					"host": [
+						"localhost"
+					],
+					"port": "7232",
+					"path": [
+						"user",
+						"fastload",
+						"0181ad79-1dcc-479e-817d-71fc8e6a9fa6"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
