@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace SpikeMarten.Controllers
 {
+    /// <summary>
+    /// This was just pasted in from the Marten documentation for reference.
+    /// </summary>
     public class Issue
     {
         public Guid Id { get; set; }

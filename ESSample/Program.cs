@@ -1,4 +1,5 @@
-﻿using Marten;
+﻿// This was pasted in from the Marten documentation for reference.
+using Marten;
 using Marten.Events.Aggregation;
 using Marten.Events.Projections;
 
