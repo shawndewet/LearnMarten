@@ -1,4 +1,6 @@
+using LOTRShared.Domain;
 using Marten;
+using Marten.Events.Projections;
 using Weasel.Core;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -23,6 +25,8 @@ builder.Services.AddMarten(options =>
     {
         options.AutoCreateSchemaObjects = AutoCreate.All;
     }
+
+    options.Projections.Add<QuestProjection>(ProjectionLifecycle.Inline); //this is the change that makes Marten actually store the Quest record in the db.
 });
 
 

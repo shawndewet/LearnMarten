@@ -7,14 +7,12 @@ namespace SpikeMarten.Controllers
 {
     [ApiController]
     [Route("[controller]")]
-    public class LOTRController: BaseController
+    public class LOTRController : BaseController
     {
         [HttpGet]
         public async Task<List<Quest>> ReadQuests(
             [FromServices] IDocumentStore store)
         {
-            //at this point, the Quest object is a self-aggregated projection...always built up at run-time from the event stream.
-            // so there IS no concept of stored Quests in the database...so this call returns nothing.
             using (var session = store.QuerySession())
             {
                 return (List<Quest>)await session
@@ -35,8 +33,8 @@ namespace SpikeMarten.Controllers
 
         [HttpPost("StartQuest")]
         public async Task<Quest> StartQuest(
-            [FromBody]StartQuestModel model,
-            [FromServices]IDocumentStore store)
+            [FromBody] StartQuestModel model,
+            [FromServices] IDocumentStore store)
         {
             var id = Guid.NewGuid();
             using (var session = store.OpenSession())
@@ -48,7 +46,8 @@ namespace SpikeMarten.Controllers
 
                 await session.SaveChangesAsync();
 
-                return session.Events.AggregateStream<Quest>(id); //not sure if this is correct...feels inefficient to be querying what was just sent to the db
+                //return session.Events.AggregateStream<Quest>(id); //not sure if this is correct...feels inefficient to be querying what was just sent to the db
+                return await session.LoadAsync<Quest>(id);
             }
         }
 
@@ -59,15 +58,15 @@ namespace SpikeMarten.Controllers
         {
             using (var session = store.OpenSession())
             {
-                var quest = await session.Events.AggregateStreamAsync<Quest>(questId);
+                var quest = await session.LoadAsync<Quest>(questId);// await session.Events.AggregateStreamAsync<Quest>(questId);
 
                 //logic here to ensure member is not already joined
                 foreach (var member in model.Members)
                     if (quest.Members.Contains(member))
-                       return new BadRequestObjectResult($"Member {member} already joined.");
+                        return new BadRequestObjectResult($"Member {member} already joined.");
 
                 if (model.Day < quest.DaysIn)
-                   return new BadRequestObjectResult($"Cannot join earlier than DaysIn ({quest.DaysIn})");
+                    return new BadRequestObjectResult($"Cannot join earlier than DaysIn ({quest.DaysIn})");
 
                 //TODO: other business logic...member limit exceeded, etc.
 
@@ -89,14 +88,14 @@ namespace SpikeMarten.Controllers
         {
             using (var session = store.OpenSession())
             {
-                var quest = await session.Events.AggregateStreamAsync<Quest>(questId);
+                var quest = await session.LoadAsync<Quest>(questId);// await session.Events.AggregateStreamAsync<Quest>(questId);
 
                 foreach (var member in model.Members)
                     if (!quest.Members.Contains(member))
-                       return new BadRequestObjectResult($"Member {member} who never joined cannot leave.");
+                        return new BadRequestObjectResult($"Member {member} who never joined cannot leave.");
 
                 if (model.Day < quest.DaysIn)
-                   return new BadRequestObjectResult($"Cannot leave earlier than DaysIn ({quest.DaysIn})");
+                    return new BadRequestObjectResult($"Cannot leave earlier than DaysIn ({quest.DaysIn})");
 
                 session.Events.Append(questId, new MembersDeparted
                 {
@@ -105,7 +104,7 @@ namespace SpikeMarten.Controllers
                     Location = quest.Location,
                     Members = model.Members
                 });
-                
+
                 await session.SaveChangesAsync();
                 return new OkResult();
             }
@@ -121,7 +120,7 @@ namespace SpikeMarten.Controllers
 
             using (var session = store.OpenSession())
             {
-                var quest = await session.Events.AggregateStreamAsync<Quest>(questId);
+                var quest = await session.LoadAsync<Quest>(questId);// await session.Events.AggregateStreamAsync<Quest>(questId);
 
                 if (quest.Location == model.Location)
                     return new BadRequestObjectResult($"Quest is already at {model.Location}");
@@ -150,12 +149,12 @@ namespace SpikeMarten.Controllers
         {
             using (var session = store.OpenSession())
             {
-                var quest = await session.Events.AggregateStreamAsync<Quest>(questId);
+                var quest = await session.LoadAsync<Quest>(questId);// await session.Events.AggregateStreamAsync<Quest>(questId);
 
                 foreach (var character in model.Characters)
                     if (quest.Slayed.Contains(character))
                         return new BadRequestObjectResult($"{character} has already been slayed.");
-                
+
                 if (model.Day < quest.DaysIn)
                     return new BadRequestObjectResult($"Cannot slay earlier than DaysIn ({quest.DaysIn})");
 

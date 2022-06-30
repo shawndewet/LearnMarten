@@ -1,4 +1,5 @@
 ﻿using Baseline;
+using Marten.Events.Aggregation;
 
 namespace LOTRShared.Domain
 {
@@ -180,42 +181,79 @@ namespace LOTRShared.Domain
 
         public string Location { get; set; }
 
-        // These methods take in events and update the QuestParty
-        // only started and arrived change the Location...others also change the DaysIn
-        public void Apply(QuestStarted started)
-        {
-            Name = started.Name;
-            Location = started.Location;
-        }
+        //// These methods take in events and update the QuestParty
+        //// only started and arrived change the Location...others also change the DaysIn
+        //public void Apply(QuestStarted started)
+        //{
+        //    Name = started.Name;
+        //    Location = started.Location;
+        //}
 
-        public void Apply(MembersJoined joined)
-        {
-            Members.Fill(joined.Members);
-            DaysIn = joined.Day;
-        }
+        //public void Apply(MembersJoined joined)
+        //{
+        //    Members.Fill(joined.Members);
+        //    DaysIn = joined.Day;
+        //}
 
-        public void Apply(ArrivedAtLocation arrived)
-        {
-            Location = arrived.Location;
-            DaysIn = arrived.Day;
-        }
+        //public void Apply(ArrivedAtLocation arrived)
+        //{
+        //    Location = arrived.Location;
+        //    DaysIn = arrived.Day;
+        //}
 
-        public void Apply(MembersDeparted departed)
-        {
-            Members.RemoveAll(x => departed.Members.Contains(x));
-            DaysIn = departed.Day;
-        }
+        //public void Apply(MembersDeparted departed)
+        //{
+        //    Members.RemoveAll(x => departed.Members.Contains(x));
+        //    DaysIn = departed.Day;
+        //}
 
-        public void Apply(CharactersSlayed slayed)
-        {
-            Slayed.Fill(slayed.Characters);
-            DaysIn = slayed.Day;
-        }
+        //public void Apply(CharactersSlayed slayed)
+        //{
+        //    Slayed.Fill(slayed.Characters);
+        //    DaysIn = slayed.Day;
+        //}
 
         public override string ToString()
         {
             return $"Quest party '{Name}' has members {Members.Join(", ")}";
         }
+    }
+
+    public class QuestProjection : SingleStreamAggregation<Quest>
+    {
+     
+        // These methods take in events and update the QuestParty
+        // only started and arrived change the Location...others also change the DaysIn
+        public void Apply(QuestStarted started, Quest quest)
+        {
+            quest.Name = started.Name;
+            quest.Location = started.Location;
+        }
+
+        public void Apply(MembersJoined joined, Quest quest)
+        {
+            quest.Members.Fill(joined.Members);
+            quest.DaysIn = joined.Day;
+        }
+
+        public void Apply(ArrivedAtLocation arrived, Quest quest)
+        {
+            quest.Location = arrived.Location;
+            quest.DaysIn = arrived.Day;
+        }
+
+        public void Apply(MembersDeparted departed, Quest quest)
+        {
+            quest.Members.RemoveAll(x => departed.Members.Contains(x));
+            quest.DaysIn = departed.Day;
+        }
+
+        public void Apply(CharactersSlayed slayed, Quest quest)
+        {
+            quest.Slayed.Fill(slayed.Characters);
+            quest.DaysIn = slayed.Day;
+        }
+
     }
 
 }
