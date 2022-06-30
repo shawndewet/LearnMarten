@@ -47,7 +47,7 @@ namespace SpikeMarten.Controllers
                 await session.SaveChangesAsync();
 
                 //return session.Events.AggregateStream<Quest>(id); //not sure if this is correct...feels inefficient to be querying what was just sent to the db
-                return await session.LoadAsync<Quest>(id);
+                return await session.LoadAsync<Quest>(id); //still not sure if this is correct...feels inefficient to be querying what was just sent to the db
             }
         }
 
