@@ -16,6 +16,7 @@ While keeping an eye on that BlazorApp, execute the API Methods (using Postman o
 /Slay
 /LeaveQuest
 etc.
+(See included Postman collection for examples)
 
 Notice how the BlazorUI gets refreshed automagically with each event!
 
