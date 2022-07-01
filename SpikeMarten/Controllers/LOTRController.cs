@@ -1,7 +1,7 @@
 ﻿using Marten;
 using Microsoft.AspNetCore.Mvc;
 using LOTRShared.Domain;
-using LOTRShared.Models;
+using LOTRShared.Commands;
 
 namespace SpikeMarten.Controllers
 {
@@ -33,7 +33,7 @@ namespace SpikeMarten.Controllers
 
         [HttpPost("StartQuest")]
         public async Task<Quest> StartQuest(
-            [FromBody] StartQuestModel model,
+            [FromBody] StartQuestCommand model,
             [FromServices] IDocumentStore store)
         {
             var id = Guid.NewGuid();
@@ -53,7 +53,7 @@ namespace SpikeMarten.Controllers
 
         [HttpPost("JoinQuest/{questId}")]
         public async Task<IActionResult> JoinQuest(Guid questId,
-            [FromBody] JoinQuestModel model,
+            [FromBody] JoinQuestCommand model,
             [FromServices] IDocumentStore store)
         {
             using (var session = store.OpenSession())
@@ -84,7 +84,7 @@ namespace SpikeMarten.Controllers
 
         [HttpPost("LeaveQuest/{questId}")]
         public async Task<IActionResult> LeaveQuest(Guid questId,
-            [FromBody] LeaveQuestModel model,
+            [FromBody] LeaveQuestCommand model,
             [FromServices] IDocumentStore store)
         {
             using (var session = store.OpenSession())
@@ -113,7 +113,7 @@ namespace SpikeMarten.Controllers
 
         [HttpPost("Arrive/{questId}")]
         public async Task<IActionResult> Arrive(Guid questId,
-            [FromBody] ArriveAtLocationModel model,
+            [FromBody] ArriveAtLocationCommand model,
             [FromServices] IDocumentStore store)
         {
             if (string.IsNullOrEmpty(model.Location))
@@ -145,7 +145,7 @@ namespace SpikeMarten.Controllers
 
         [HttpPost("Slay/{questId}")]
         public async Task<IActionResult> Slay(Guid questId,
-            [FromBody] SlayCharactersModel model,
+            [FromBody] SlayCharactersCommand model,
             [FromServices] IDocumentStore store)
         {
             using (var session = store.OpenSession())

@@ -1,4 +1,4 @@
-﻿namespace LOTRShared.Models
+﻿namespace LOTRShared.Commands
 {
     public class UserModel
     {

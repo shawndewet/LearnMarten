@@ -1,13 +1,13 @@
-﻿namespace LOTRShared.Models
+﻿namespace LOTRShared.Commands
 {
-    public class StartQuestModel
+    public class StartQuestCommand
     {
         public string QuestName { get; set; }
         public string Location { get; set; }
-        public JoinQuestModel InitialMembers { get; set; }
+        public JoinQuestCommand InitialMembers { get; set; }
     }
 
-    public class ArriveAtLocationModel
+    public class ArriveAtLocationCommand
     {
         public string Location { get; set; }
 
@@ -15,7 +15,7 @@
 
     }
 
-    public class JoinQuestModel
+    public class JoinQuestCommand
     {
         public int Day { get; set; }
 
@@ -25,14 +25,14 @@
 
     }
 
-    public class LeaveQuestModel
+    public class LeaveQuestCommand
     {
         public int Day { get; set; }
 
         public string[] Members { get; set; }
 
     }
-    public class SlayCharactersModel
+    public class SlayCharactersCommand
     {
         public int Day { get; set; }
 
