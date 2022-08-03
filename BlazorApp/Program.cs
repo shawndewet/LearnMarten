@@ -15,6 +15,7 @@ builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>();
 builder.Services.AddScoped<QuestService>();
+builder.Services.AddScoped<ICDService>();
 builder.Services.AddSingleton<IMartenEventsConsumer, LOTREventsConsumer>();
 
 builder.Services.AddMarten(provider =>
@@ -38,6 +39,11 @@ builder.Services.AddMarten(provider =>
         ProjectionLifecycle.Async,
         "lotrConsumer"
     );
+
+
+    options.Schema.For<LOTRShared.Domain.ICDRecord>()
+        .Index(x => x.Code)
+        .NgramIndex(x => x.Description);
 
     return options;
 })

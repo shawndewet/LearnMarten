@@ -27,6 +27,10 @@ builder.Services.AddMarten(options =>
     }
 
     options.Projections.Add<QuestProjection>(ProjectionLifecycle.Inline); //this is the change that makes Marten actually store the Quest record in the db.
+
+    options.Schema.For<ICDRecord>()
+        .Index(x => x.Code)
+        .NgramIndex(x=> x.Description);
 });
 
 

@@ -1,17 +1,19 @@
-﻿using Marten.Schema;
-
-namespace LOTRShared.Domain
+﻿namespace LOTRShared.Domain
 {
     public class ICDRecord
     {
 
         public string Id { get; set; }
         
-        [FullTextIndex]
         public string Code { get; set; }
         
-        [FullTextIndex]
+        //[FullTextIndex]
         public string Description { get; set; }
+
+        public override string ToString()
+        {
+            return $"{Code} {Description}";
+        }
     }
 
 }
