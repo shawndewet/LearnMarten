@@ -1,0 +1,80 @@
+﻿@page "/icdrecords"
+@using BlazorApp.Data
+@using LOTRShared.Domain
+@using System.Timers;
+@inject NavigationManager NavigationManager
+@inject ICDService ICDService
+@inject IJSRuntime jsRuntime
+
+<h3>Full Text Search PoC over ICD Records</h3>
+
+<input type="text" list="searchList" @oninput="@onSearchChanged" style="width:640px" />
+<datalist id="searchList">
+    @foreach (var item in records)
+    {
+        <option>@item.Code|@item.Description</option>
+    }
+</datalist>
+<p>@theSingleRecord?.ToString()</p>
+
+@code {
+    private List<ICDRecord>? records;
+    private ICDRecord? theSingleRecord;
+    private Timer? timer = null;
+    private string searchTerm = "";
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        records = new();
+    }
+
+    private void onSearchChanged(Microsoft.AspNetCore.Components.ChangeEventArgs args)
+    {
+        DisposeTimer();
+        timer = new Timer(300);
+        timer.Elapsed += TimerElapsed_TickAsync;
+        timer.Enabled = true;
+        timer.Start();
+        searchTerm = (string)args.Value;
+    }
+
+    private async void TimerElapsed_TickAsync(object sender, EventArgs e)
+    {
+        DisposeTimer();
+        await OnSearchAsync();
+    }
+
+    private void DisposeTimer()
+    {
+        if (timer != null)
+        {
+            timer.Enabled = false;
+            timer.Elapsed -= TimerElapsed_TickAsync;
+            timer.Dispose();
+            timer = null;
+        }
+    }
+
+    private async Task OnSearchAsync()
+    {
+        try
+        {
+            await jsRuntime.InvokeVoidAsync("console.log", $"searching {searchTerm}");
+            records = await ICDService.SearchICDRecords(searchTerm);
+            await jsRuntime.InvokeVoidAsync("console.log", $"got {records.Count()} records");
+            if (records.Count == 1)
+                theSingleRecord = records.Single();
+            else
+                theSingleRecord = null;
+
+            await InvokeAsync(StateHasChanged);
+        }
+        catch (Exception ex)
+        {
+            await jsRuntime.InvokeVoidAsync("console.error", ex.ToString());
+        }
+
+
+    }
+}

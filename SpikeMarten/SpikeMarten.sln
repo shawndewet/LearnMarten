@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ESSample", "..\ESSample\ESS
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorApp", "..\BlazorApp\BlazorApp.csproj", "{44E7AD1B-CE66-4808-A461-B977F27CF9B7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LOTRShared", "..\LOTRShared\LOTRShared.csproj", "{2D40D6F0-6FAD-49DA-A8AB-3877CCDB99D0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LOTRShared", "..\LOTRShared\LOTRShared.csproj", "{2D40D6F0-6FAD-49DA-A8AB-3877CCDB99D0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
